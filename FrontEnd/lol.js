@@ -36,7 +36,7 @@ async function loginadmin() {
     email: username,
     password: password
   };
-  fetch('http://localhost:5678/api/users/login', {
+  await fetch('http://localhost:5678/api/users/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -45,7 +45,9 @@ async function loginadmin() {
   })
   .then(response => {
     if (response.status == 200) {
-      sessionStorage.setItem('response', JSON.stringify(response));
+      response.json().then(tokenData => {
+      let token = tokenData.token;
+      sessionStorage.setItem('token', JSON.stringify(token));
       console.log('Connexion réussie');
       let main = document.querySelector('main');
       let loginPage = document.getElementById('loginpage');
@@ -58,8 +60,8 @@ async function loginadmin() {
       let login = document.getElementById('login');
       login.textContent="log out";
       modifier.addEventListener('click', modal);
-    } 
-    else  {
+    });
+  } else  {
       console.log('Échec de la connexion');
     }
   })
@@ -123,33 +125,48 @@ function printCategories(){
   }
 }
 
-function modal(){
-let modal = document.getElementById('modal');
-modal.style.display="block";
-let titre = document.createElement('h2');
-titre.id="titre";
-titre.textContent="Galerie Photo";
-modal.appendChild(titre);
-let modalgalery = document.createElement('div');
-modalgalery.id ="modalgalery";
-titre.insertAdjacentElement('afterend', modalgalery);
-let travaux = JSON.parse(sessionStorage.getItem('works'));
-let i = 0;
-modalgalery.innerHTML = '';
-while (i < travaux.length)
-{
-  let figure = document.createElement('figure');
-  let image = document.createElement('img');
-  image.src = travaux[i].imageUrl;
-  figure.appendChild(image);
-  let figcaption = document.createElement('figcaption');
-  figcaption.textContent = travaux[i].title;
-  figure.appendChild(figcaption);
-  modalgalery.appendChild(figure);
-  i++;
+async function deletework(workId) {
+  var token = JSON.parse(sessionStorage.getItem('token'));
+
+  await fetch(`http://localhost:5678/api/works/${workId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  console.log(workId);
+  modal();
 }
 
-
+function modal() {
+  let modalgalery = document.createElement('div');
+  modalgalery.id = "modalgalery";
+  let modal = document.getElementById('modal');
+  modal.innerHTML = '';
+  modal.style.display = "block";
+  let titre = document.createElement('h2');
+  titre.id = "titre";
+  titre.textContent = "Galerie Photo";
+  modal.appendChild(titre);
+  titre.insertAdjacentElement('afterend', modalgalery);
+  let travaux = JSON.parse(sessionStorage.getItem('works'));
+  modalgalery.innerHTML = '';
+  for (let i = 0; i < travaux.length; i++) {
+    let figure = document.createElement('figure');
+    let image = document.createElement('img');
+    image.src = travaux[i].imageUrl;
+    figure.appendChild(image);
+    let figcaption = document.createElement('figcaption');
+    figcaption.textContent = "éditer";
+    figure.appendChild(figcaption);
+    modalgalery.appendChild(figure);
+    figcaption.dataset.workId = travaux[i].id;
+    figcaption.addEventListener('click', function(event) {
+      let workId = event.target.dataset.workId;
+      deletework(workId);
+    });
+  }
 }
 
 
@@ -174,7 +191,6 @@ window.onload = function() {
   });
   let btn = document.getElementById("btn");
   btn.addEventListener('click', loginadmin);
-  
 };
  
  
