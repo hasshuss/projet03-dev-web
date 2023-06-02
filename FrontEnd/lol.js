@@ -144,10 +144,10 @@ async function deletework(workId, arraynumber) {
 }
 
 function modal() {
+  let modal = document.getElementById('modal');
+  modal.innerHTML=''
   let modalgalery = document.createElement('div');
   modalgalery.id = "modalgalery";
-  let modal = document.getElementById('modal');
-  modal.innerHTML = '';
   modal.style.display = "block";
   let titre = document.createElement('h2');
   titre.id = "titre";
@@ -250,6 +250,9 @@ function modal() {
               dial.value = '';
               menu.value = '';
               btnAjout.value = null;
+              ClearModal();
+              getWorks()
+              .then(() => printgallery());
 
             } else {
 
@@ -264,9 +267,30 @@ function modal() {
       }
     });
   });
+  window.addEventListener('click', function (event) {
+    let modifier = document.getElementById('modifier');
+    if (
+      event.target === modal ||
+      modal.style.display === 'none' ||
+      event.target === modifier ||
+      modal.contains(event.target)
+    ) {
+    }
+  
+    ClearModal();
+    console.log('modal supprimé');
+  });
+  
+};
+
+
+function ClearModal(){
+  let modal = document.getElementById('modal');
+  modal.style.display='none';
 }
 
-function main(){ 
+
+
   window.onload = function () {
   console.log("bonjour")
   getWorks().then(() => printgallery());
@@ -288,9 +312,6 @@ function main(){
   });
   let btn = document.getElementById("btn");
   btn.addEventListener('click', loginadmin);
-
-}};
-
-main();
+};
 
 
