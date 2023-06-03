@@ -144,8 +144,10 @@ async function deletework(workId, arraynumber) {
 }
 
 function modal() {
+  let overlay = document.getElementById('superposition');
+  overlay.style.display='block';
   let modal = document.getElementById('modal');
-  modal.innerHTML=''
+  modal.innerHTML = ''
   let modalgalery = document.createElement('div');
   modalgalery.id = "modalgalery";
   modal.style.display = "block";
@@ -186,11 +188,11 @@ function modal() {
     btnAjout.accept = 'image/jpeg, image/png';
     btnAjout.style.display = 'block';
     btnAjout.id = 'fileInput';
-    btnAjout.addEventListener('change', function(event) {
-      var selectedFile = event.target.files[0]; 
+    btnAjout.addEventListener('change', function (event) {
+      var selectedFile = event.target.files[0];
       if (selectedFile) {
-        var fileSize = selectedFile.size; 
-        var maxSize = 4 * 1024 * 1024; 
+        var fileSize = selectedFile.size;
+        var maxSize = 4 * 1024 * 1024;
         if (fileSize <= maxSize) {
           console.log('Fichier sélectionné :', selectedFile.name);
         } else {
@@ -221,15 +223,15 @@ function modal() {
       menu.appendChild(CategorieMenu);
     }
     let ajout = document.createElement('button');
-    ajout.textContent='Ajout';
+    ajout.textContent = 'Ajout';
     modal.appendChild(ajout);
-    ajout.addEventListener('click', function() {
+    ajout.addEventListener('click', function () {
       let titreValue = dial.value;
       let categorieValue = menu.value;
       let categorieId = Categories.find(category => category.name === categorieValue)?.id;
-      
+
       let selectedFile = btnAjout.files[0];
-    
+
       if (titreValue && categorieValue && categorieId && selectedFile) {
         let dataToSend = new FormData();
         dataToSend.append('image', selectedFile);
@@ -252,7 +254,7 @@ function modal() {
               btnAjout.value = null;
               ClearModal();
               getWorks()
-              .then(() => printgallery());
+                .then(() => printgallery());
 
             } else {
 
@@ -274,24 +276,26 @@ function modal() {
       modal.style.display === 'none' ||
       event.target === modifier ||
       modal.contains(event.target)
-    ) {
+      
+    ) {return;
     }
-  
     ClearModal();
     console.log('modal supprimé');
   });
-  
+
 };
 
 
-function ClearModal(){
+function ClearModal() {
   let modal = document.getElementById('modal');
-  modal.style.display='none';
+  modal.style.display = 'none';
+  let overlay = document.getElementById('superposition');
+  overlay.style.display='none';
 }
 
 
 
-  window.onload = function () {
+window.onload = function () {
   console.log("bonjour")
   getWorks().then(() => printgallery());
   let button = document.createElement('button');

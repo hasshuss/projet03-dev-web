@@ -18,22 +18,28 @@
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li id="loginLink">Connexion</li>
-			<div id="modal_connexion" class="modal_connexion">
-				<div class="modal-content">
-				  <span class="close">&times;</span>
-				  <form id="loginForm">
-					<input type="text" id="username" placeholder="Nom d'utilisateur">
-					<input type="password" id="password" placeholder="Mot de passe">
-					<button type="submit">Se connecter</button>
-				  </form>
-				</div>
-			  </div>
+			<li id="login">login</li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
 </header>
+<div id="loginpage">
+	<h2>Connexion</h2>
+	<form>
+	  <div>
+		<label for="username">Nom d'utilisateur:</label>
+		<input type="text" id="username" name="username" required>
+	  </div>
+	  <div>
+		<label for="password">Mot de passe:</label>
+		<input type="password" id="password" name="password" required>
+	  </div>
+	  <div>
+		<input type="button" value="Se connecter" id="btn">
+	  </div>
+	</form></div>
 <main>
+	<div id="superposition"></div>
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
@@ -45,31 +51,14 @@
 			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
 		</article>
 	</section>
+	<div id="modal">
+	</div>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
-		<div id="modal_modifier">modifier</div>
-
-			  
-				<div id="modal-gallery-container">
-					<h3>Galerie Photo</h3>
-				<div id="modal-gallery">
-				</div></div>
-			  
-			
-				<!-- <form>
-					<input type="file" id="photoInput" accept=".png, .jpg, .jpeg" max-size="4MB">
-					<button type="submit" id="submit_photo">Envoyer</button>
-				  </form>
-			   Contenu du modal -->
-			</div>
-		  </div>
-		<div id="filters" class="filters">
-			<button class="filter-btn" data-category="all">Toutes les images</button>
-			<button class="filter-btn" data-category="1">Catégorie 1</button>
-			<button class="filter-btn" data-category="2">Catégorie 2</button>
-			<button class="filter-btn" data-category="3">Catégorie 3</button>
-		  </div>
-		<div class="gallery"></div>
+		<div id="modifier"></div>
+		<div id="buttons"></div>
+		<div id="gallery" class="gallery">
+		</div>
 	</section>
 	<section id="contact">
 		<h2>Contact</h2>
