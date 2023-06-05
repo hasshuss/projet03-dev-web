@@ -1,3 +1,14 @@
+document.addEventListener('DOMContentLoaded', function() {
+
+const main = document.querySelector('main')
+const loginPage = document.getElementById('loginpage')
+const modifier = document.getElementById('modifier')
+const buttons = document.getElementById('buttons')
+const login = document.getElementById('login')
+const overlay = document.getElementById('superposition')
+const modalelement = document.getElementById('modal');
+const gallery = document.getElementById('gallery');
+
 async function getWorks() {
   try {
     let response = await fetch('http://localhost:5678/api/works');
@@ -20,8 +31,8 @@ async function getCategories() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     } else {
-      let workData = await response.json();
-      sessionStorage.setItem('Categories', JSON.stringify(workData));
+      let CatData = await response.json();
+      sessionStorage.setItem('Categories', JSON.stringify(CatData));
     }
   } catch (error) {
     console.error('Une erreur est survenue lors de la récupération des données : ', error);
@@ -48,17 +59,8 @@ async function loginadmin() {
         response.json().then(tokenData => {
           let token = tokenData.token;
           sessionStorage.setItem('token', JSON.stringify(token));
-          console.log('Connexion réussie');
-          let main = document.querySelector('main');
-          let loginPage = document.getElementById('loginpage');
-          main.style.display = "block";
-          loginPage.style.display = "none";
-          let modifier = document.getElementById('modifier');
-          modifier.textContent = "modifier";
-          let buttons = document.getElementById('buttons');
-          buttons.style.display = "none";
-          let login = document.getElementById('login');
-          login.textContent = "log out";
+          ClearLoginPage();
+          printgallery();
           modifier.addEventListener('click', modal);
         });
       } else {
@@ -70,11 +72,18 @@ async function loginadmin() {
     });
 }
 
+function ClearLoginPage() {
+  main.style.display = "block";
+  loginPage.style.display = "none";
+  modifier.textContent = "modifier";
+  buttons.style.display = "none";
+  login.textContent = "log out";
+}
+
 function printgallery() {
   let travaux = JSON.parse(sessionStorage.getItem('works'));
   console.log(travaux);
   let i = 0;
-  let gallery = document.getElementById('gallery');
   gallery.innerHTML = '';
   while (i < travaux.length) {
     let figure = document.createElement('figure');
@@ -85,24 +94,21 @@ function printgallery() {
     figcaption.textContent = travaux[i].title;
     figure.appendChild(figcaption);
     gallery.appendChild(figure);
+    console.log('galleryprinted')
     i++;
   }
-};
+}
 
 function printCategories() {
   let Categories = JSON.parse(sessionStorage.getItem('Categories'));
-  console.log(Categories);
-
   for (let k = 0; k < Categories.length; k++) {
     let buttonCategories = document.createElement('button');
     buttonCategories.textContent = Categories[k].name;
-    let buttons = document.getElementById('buttons');
     buttons.appendChild(buttonCategories);
     buttonCategories.addEventListener('click', (function (k) {
       return function () {
         let travaux = JSON.parse(sessionStorage.getItem('works'));
         console.log(travaux);
-        let gallery = document.getElementById('gallery');
         gallery.innerHTML = '';
         for (let i = 0; i < travaux.length; i++) {
           if (travaux[i].categoryId == Categories[k].id) {
@@ -134,7 +140,6 @@ async function deletework(workId, arraynumber) {
     }
   });
   console.log(workId);
-
   let travaux = JSON.parse(sessionStorage.getItem('works'));
   travaux.splice(arraynumber, 1);
   sessionStorage.setItem('works', JSON.stringify(travaux));
@@ -144,17 +149,15 @@ async function deletework(workId, arraynumber) {
 }
 
 function modal() {
-  let overlay = document.getElementById('superposition');
   overlay.style.display='block';
-  let modal = document.getElementById('modal');
-  modal.innerHTML = ''
+  modalelement.innerHTML = ''
   let modalgalery = document.createElement('div');
   modalgalery.id = "modalgalery";
-  modal.style.display = "block";
+  modalelement.style.display = "block";
   let titre = document.createElement('h2');
   titre.id = "titre";
   titre.textContent = "Galerie Photo";
-  modal.appendChild(titre);
+  modalelement.appendChild(titre);
   titre.insertAdjacentElement('afterend', modalgalery);
   let travaux = JSON.parse(sessionStorage.getItem('works'));
   modalgalery.innerHTML = '';
@@ -177,18 +180,22 @@ function modal() {
   }
   let AddWorkButton = document.createElement('button');
   AddWorkButton.textContent = "Ajouter une photo";
-  modal.insertBefore(AddWorkButton, modalgalery.nextSibling);
+  AddWorkButton.style.display ="flex";
+  AddWorkButton.style.justifyContent="center"
+  
+  modalelement.insertBefore(AddWorkButton, modalgalery.nextSibling);
   AddWorkButton.addEventListener('click', function () {
     modalgalery.innerHTML = '';
     AddWorkButton.style.display = 'none';
     titre.textContent = "Ajout Photo";
     let cadre = document.createElement('div')
-    let btnAjout = document.createElement('input');
+    var btnAjout = document.createElement('input');
     btnAjout.type = 'file';
     btnAjout.accept = 'image/jpeg, image/png';
-    btnAjout.style.display = 'block';
+    btnAjout.style.display = 'flex';
     btnAjout.id = 'fileInput';
     btnAjout.addEventListener('change', function (event) {
+   
       var selectedFile = event.target.files[0];
       if (selectedFile) {
         var fileSize = selectedFile.size;
@@ -200,7 +207,7 @@ function modal() {
         }
       }
     });
-    modal.appendChild(cadre);
+    modalelement.appendChild(cadre);
     cadre.appendChild(btnAjout);
     btnAjout.textContent = "+ Ajouter une photo"
     cadre.className = "cadre";
@@ -208,13 +215,13 @@ function modal() {
     SousTitre1.textContent = 'Titre'
     let dial = document.createElement('input');
     dial.type = 'text';
-    modal.appendChild(SousTitre1);
-    modal.appendChild(dial);
+    modalelement.appendChild(SousTitre1);
+    modalelement.appendChild(dial);
     let SousTitre2 = document.createElement('div');
     SousTitre2.textContent = 'Catégorie';
-    modal.appendChild(SousTitre2);
+    modalelement.appendChild(SousTitre2);
     let menu = document.createElement('select');
-    modal.appendChild(menu);
+    modalelement.appendChild(menu);
     let Categories = JSON.parse(sessionStorage.getItem('Categories'));
     console.log(Categories);
     for (let k = 0; k < Categories.length; k++) {
@@ -223,15 +230,14 @@ function modal() {
       menu.appendChild(CategorieMenu);
     }
     let ajout = document.createElement('button');
-    ajout.textContent = 'Ajout';
-    modal.appendChild(ajout);
+    ajout.textContent = 'Valider';
+    ajout.id = "validerbtn";
+    modalelement.appendChild(ajout);
     ajout.addEventListener('click', function () {
       let titreValue = dial.value;
       let categorieValue = menu.value;
       let categorieId = Categories.find(category => category.name === categorieValue)?.id;
-
       let selectedFile = btnAjout.files[0];
-
       if (titreValue && categorieValue && categorieId && selectedFile) {
         let dataToSend = new FormData();
         dataToSend.append('image', selectedFile);
@@ -247,17 +253,12 @@ function modal() {
         })
           .then(response => {
             if (response.ok) {
-
-              console.log('Image ajoutée avec succès');
               dial.value = '';
               menu.value = '';
               btnAjout.value = null;
               ClearModal();
-              getWorks()
-                .then(() => printgallery());
-
+              getWorks().then(() => printgallery());
             } else {
-
               console.error('Erreur lors de l\'ajout de l\'image');
             }
           })
@@ -270,52 +271,48 @@ function modal() {
     });
   });
   window.addEventListener('click', function (event) {
-    let modifier = document.getElementById('modifier');
     if (
-      event.target === modal ||
-      modal.style.display === 'none' ||
+      event.target === modalelement ||
+      modalelement.style.display === 'none' ||
       event.target === modifier ||
-      modal.contains(event.target)
-      
-    ) {return;
-    }
+      modalelement.contains(event.target)     
+       )
+     {return}
     ClearModal();
-    console.log('modal supprimé');
   });
-
 };
 
-
 function ClearModal() {
-  let modal = document.getElementById('modal');
-  modal.style.display = 'none';
-  let overlay = document.getElementById('superposition');
+  modalelement.style.display = 'none';
   overlay.style.display='none';
 }
 
+function Center(Id){
+ let elem = document.getElementById(Id);
+ elem.style.display = "flex";
+ elem.style.justifyContent = "center";
+ elem.style.alignItems = "center";
+}
 
+function bouttontous() {
+let buttontous = document.createElement('button');
+buttontous.textContent = 'Tous';
+buttons.appendChild(buttontous);
+buttontous.addEventListener('click', printgallery);
+}
 
-window.onload = function () {
-  console.log("bonjour")
-  getWorks().then(() => printgallery());
-  let button = document.createElement('button');
-  let buttons = document.getElementById('buttons');
-  button.textContent = 'Tous';
-  buttons.appendChild(button);
-  button.addEventListener('click', function () {
-    printgallery();
+function mainscript() {
+getWorks().then(() => printgallery());
+bouttontous();
+getCategories().then(() => printCategories());
+login.addEventListener('click', function () {
+main.style.display = "none";
+loginPage.style.display = 'block';
   });
-  getCategories().then(() => printCategories());
-  let login = document.getElementById('login');
-  login.addEventListener('click', function () {
-    let main = document.querySelector('main');
-    main.style.display = "none"
-    let loginPage = document.getElementById('loginpage');
-    loginPage.style.display = 'block';
-    loginPage.style.setProperty('display', 'block', 'important');
-  });
-  let btn = document.getElementById("btn");
-  btn.addEventListener('click', loginadmin);
-};
+let btn = document.getElementById("btn");
+btn.addEventListener('click', loginadmin);
+}
 
+mainscript()
 
+});
