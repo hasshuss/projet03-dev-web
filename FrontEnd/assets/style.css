@@ -71,6 +71,13 @@ h1{
 	color: #B1663C
 }
 
+input[type="file"] {
+	all: unset;
+	color: initial;
+	font-size: initial;
+	font-family: initial;
+  }
+
 h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
@@ -180,6 +187,8 @@ button{
 	border-radius: 60px ;
 }
 
+
+
 #btn{
 		font-family: 'Syne';
 	font-weight: 700;
@@ -190,6 +199,8 @@ button{
 	text-align: center;
 	border-radius: 60px ;
 }
+
+
 
 input[type="submit"]{
 	font-family: 'Syne';
@@ -206,6 +217,13 @@ footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
+}
+
+footer{
+	background-color: white;
+	margin:0;
+	padding:0;
+	max-width: 100%;
 }
 
 #loginpage {
@@ -236,6 +254,11 @@ footer nav ul {
 	justify-content: center;
 }
 
+#validerbtn{
+	display: flex;
+	justify-content: center;
+}
+
 #modalgalery{
 	display:grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr ;
@@ -262,5 +285,10 @@ width:75%;
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.5); 
 	display: none;
+  }
+
+  #loginpage{
+	margin-left: 45%;
+	margin-right: 45%;
   }
 
