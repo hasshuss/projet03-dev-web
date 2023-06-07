@@ -86,10 +86,17 @@ h1 > span {
 }
 
 h2{
+	
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: #1D6154;
+
+}
+
+.loginText{
+	white-space: nowrap;
+	display:block;
 }
 nav ul {
 	display: flex;
@@ -288,7 +295,19 @@ width:75%;
   }
 
   #loginpage{
-	margin-left: 45%;
-	margin-right: 45%;
+	margin-left: 50%;
+	margin-right: 50%;
+	display:none;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+  }
+
+  #ErrorMessage{
+	color:red;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	white-space: nowrap;
   }
 
