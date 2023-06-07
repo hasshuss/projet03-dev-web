@@ -8,6 +8,7 @@ const login = document.getElementById('login')
 const overlay = document.getElementById('superposition')
 const modalelement = document.getElementById('modal');
 const gallery = document.getElementById('gallery');
+let message = document.createElement('span');
 
 async function getWorks() {
   try {
@@ -20,7 +21,8 @@ async function getWorks() {
       sessionStorage.setItem('works', JSON.stringify(workData));
     }
   } catch (error) {
-    console.error('Une erreur est survenue lors de la récupération des données : ', error);
+    message.textContent='impossible de contacter le serveur';
+    PrintErrorMessage(message,gallery);
   }
 }
 
@@ -35,7 +37,8 @@ async function getCategories() {
       sessionStorage.setItem('Categories', JSON.stringify(CatData));
     }
   } catch (error) {
-    console.error('Une erreur est survenue lors de la récupération des données : ', error);
+    message.textContent='impossible de contacter le serveur';
+    PrintErrorMessage(message,gallery);
   }
 }
 
@@ -64,12 +67,11 @@ async function loginadmin() {
           modifier.addEventListener('click', modal);
         });
       } else {
-        console.log('Échec de la connexion');
+        message.textContent='Echec de la connexion';
+        PrintErrorMessage(message,loginPage);
       }
-    })
-    .catch(error => {
-      console.error('Erreur lors de la connexion', error);
-    });
+
+});
 }
 
 function ClearLoginPage() {
@@ -203,7 +205,8 @@ function modal() {
         if (fileSize <= maxSize) {
           console.log('Fichier sélectionné :', selectedFile.name);
         } else {
-          console.log('Taille de fichier trop grande. Veuillez sélectionner un fichier de moins de 4 Mo.');
+          message.textContent='Veuillez selectionner un fichier de taille inférieur à 4mo';
+          PrintErrorMessage(message,modalelement);
         }
       }
     });
@@ -259,14 +262,18 @@ function modal() {
               ClearModal();
               getWorks().then(() => printgallery());
             } else {
-              console.error('Erreur lors de l\'ajout de l\'image');
+              message.textContent='Une erreur est survenue lors de la requête';
+              PrintErrorMessage(message,modalelement);
             }
           })
           .catch(error => {
             console.error('Une erreur est survenue lors de la requête', error);
+            message.textContent='Une erreur est survenue lors de la requête';
+            PrintErrorMessage(message,modalelement);
           });
       } else {
-        console.log('Veuillez remplir tous les champs');
+        message.textContent='Veuillez remplir tous les champs';
+        PrintErrorMessage(message,modalelement);
       }
     });
   });
@@ -287,18 +294,16 @@ function ClearModal() {
   overlay.style.display='none';
 }
 
-function Center(Id){
- let elem = document.getElementById(Id);
- elem.style.display = "flex";
- elem.style.justifyContent = "center";
- elem.style.alignItems = "center";
-}
-
 function bouttontous() {
 let buttontous = document.createElement('button');
 buttontous.textContent = 'Tous';
 buttons.appendChild(buttontous);
 buttontous.addEventListener('click', printgallery);
+}
+
+function PrintErrorMessage(message,parent) {
+message.id="ErrorMessage"
+parent.appendChild(message);
 }
 
 function mainscript() {
@@ -307,7 +312,7 @@ bouttontous();
 getCategories().then(() => printCategories());
 login.addEventListener('click', function () {
 main.style.display = "none";
-loginPage.style.display = 'block';
+loginPage.style.display = 'flex';
   });
 let btn = document.getElementById("btn");
 btn.addEventListener('click', loginadmin);
