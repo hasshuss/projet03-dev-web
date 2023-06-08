@@ -311,3 +311,25 @@ width:75%;
 	white-space: nowrap;
   }
 
+  .no-wrap {
+	white-space: nowrap;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: auto;
+	margin-right: auto;
+  }
+
+  #icone-modifier{
+	display:none;
+  }
+
+  #trash{
+	position: absolute;
+	top: 0;
+	right: 30%;
+  }
+  
+  #trash:hover{
+	cursor: pointer;
+  }
