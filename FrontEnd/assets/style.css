@@ -71,18 +71,13 @@ h1{
 	color: #B1663C
 }
 
-input[type="file"] {
-	all: unset;
-	color: initial;
-	font-size: initial;
-	font-family: initial;
-  }
+
 
 h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
+
 }
 
 h2{
@@ -91,6 +86,8 @@ h2{
 	font-weight: 700;
 	font-size: 30px;
 	color: #1D6154;
+	padding: 20px;
+	margin:20px;
 
 }
 
@@ -326,10 +323,40 @@ width:75%;
 
   #trash{
 	position: absolute;
-	top: 0;
+	top: 5%;
 	right: 30%;
+	border-style: groove;
+	border-color: black;
   }
   
   #trash:hover{
 	cursor: pointer;
   }
+
+  #cadre{
+	width: 70%;
+	height: 169px;
+	margin-left: auto;
+	margin-right:auto;
+	display:flex;
+	background-color:#E8F1F6;
+	padding-top: 10px;
+	padding-bottom:10px;
+	margin-bottom: 10px;
+	flex-direction: column;
+	justify-content: center;
+	align-content: center;
+  }
+  #cadre > * {
+	margin: auto;
+  }
+
+  #cadre2
+  {
+	width: 70%;
+	display: flex;
+	margin-left: auto;
+	margin-right:auto;
+	flex-direction: column;
+  }
+
