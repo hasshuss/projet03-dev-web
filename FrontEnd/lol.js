@@ -64,6 +64,8 @@ async function loginadmin() {
           sessionStorage.setItem('token', JSON.stringify(token));
           ClearLoginPage();
           printgallery();
+          let IconeModifier = document.getElementById('icone-modifier');
+          IconeModifier.style.display='flex';
           modifier.addEventListener('click', modal);
         });
       } else {
@@ -172,9 +174,14 @@ function modal() {
     figcaption.textContent = "éditer";
     figure.appendChild(figcaption);
     modalgalery.appendChild(figure);
-    figcaption.dataset.workId = travaux[i].id;
-    figcaption.dataset.arraynumber = i;
-    figcaption.addEventListener('click', function (event) {
+    let trash= document.createElement('i');
+    trash.className='fa-regular fa-trash-can';
+    trash.id='trash';
+    figure.style.position='relative';
+    figure.appendChild(trash)
+    trash.dataset.workId = travaux[i].id;
+    trash.dataset.arraynumber = i;
+    trash.addEventListener('click', function (event) {
       let workId = event.target.dataset.workId;
       let arraynumber = event.target.dataset.arraynumber;
       deletework(workId, arraynumber);
