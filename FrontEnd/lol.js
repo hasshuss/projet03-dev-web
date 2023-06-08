@@ -198,40 +198,56 @@ function modal() {
     AddWorkButton.style.display = 'none';
     titre.textContent = "Ajout Photo";
     let cadre = document.createElement('div')
+    cadre.id='cadre';
     var btnAjout = document.createElement('input');
+    btnAjout.id='BtnAjoutPhoto'
     btnAjout.type = 'file';
     btnAjout.accept = 'image/jpeg, image/png';
     btnAjout.style.display = 'flex';
     btnAjout.id = 'fileInput';
-    btnAjout.addEventListener('change', function (event) {
-   
+    btnAjout.addEventListener('change', function(event) {
       var selectedFile = event.target.files[0];
       if (selectedFile) {
         var fileSize = selectedFile.size;
         var maxSize = 4 * 1024 * 1024;
         if (fileSize <= maxSize) {
           console.log('Fichier sélectionné :', selectedFile.name);
+    
+          var reader = new FileReader();
+    
+          reader.addEventListener('load', function() {
+            var cadre = document.getElementById('cadre');
+            var previewImage = document.createElement('img');
+            previewImage.src = reader.result;
+            previewImage.style.maxWidth = '90%'; 
+            previewImage.style.maxHeight = '90%';
+            cadre.appendChild(previewImage);
+          });
+    
+          reader.readAsDataURL(selectedFile);
         } else {
-          message.textContent='Veuillez selectionner un fichier de taille inférieur à 4mo';
-          PrintErrorMessage(message,modalelement);
+          message.textContent = 'Veuillez sélectionner un fichier de taille inférieure à 4 Mo';
+          PrintErrorMessage(message, modalelement);
         }
       }
     });
     modalelement.appendChild(cadre);
     cadre.appendChild(btnAjout);
-    btnAjout.textContent = "+ Ajouter une photo"
     cadre.className = "cadre";
+    let cadre2 = document.createElement('div');
+    cadre2.id='cadre2'
+    modalelement.appendChild(cadre2);
     let SousTitre1 = document.createElement('div');
     SousTitre1.textContent = 'Titre'
     let dial = document.createElement('input');
     dial.type = 'text';
-    modalelement.appendChild(SousTitre1);
-    modalelement.appendChild(dial);
+    cadre2.appendChild(SousTitre1);
+    cadre2.appendChild(dial);
     let SousTitre2 = document.createElement('div');
     SousTitre2.textContent = 'Catégorie';
-    modalelement.appendChild(SousTitre2);
+    cadre2.appendChild(SousTitre2);
     let menu = document.createElement('select');
-    modalelement.appendChild(menu);
+    cadre2.appendChild(menu);
     let Categories = JSON.parse(sessionStorage.getItem('Categories'));
     console.log(Categories);
     for (let k = 0; k < Categories.length; k++) {
