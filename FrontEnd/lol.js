@@ -9,6 +9,7 @@ const overlay = document.getElementById('superposition')
 const modalelement = document.getElementById('modal');
 const gallery = document.getElementById('gallery');
 let message = document.createElement('span');
+const cadre = document.createElement('div')
 
 async function getWorks() {
   try {
@@ -152,7 +153,7 @@ async function deletework(workId, arraynumber) {
 }
 
 function modal() {
-
+  console.log('ouverture modal')
   overlay.style.display='block';
   modalelement.innerHTML = '';
   ConstructBtnCloseModal();
@@ -196,10 +197,11 @@ function modal() {
   modalelement.insertBefore(AddWorkButton, modalgalery.nextSibling);
   AddWorkButton.addEventListener('click', function () {
     modalgalery.innerHTML = '';
+    ConstrucBtnBeforeModal();
     AddWorkButton.style.display = 'none';
     titre.textContent = "Ajout Photo";
-    let cadre = document.createElement('div')
     cadre.id='cadre';
+    AddImageIcone();
     var btnAjout = document.createElement('input');
     btnAjout.id='BtnAjoutPhoto'
     btnAjout.type = 'file';
@@ -316,6 +318,8 @@ function modal() {
 };
 
 function ClearModal() {
+  console.log('fermeture modal')
+  cadre.innerHTML='';
   modalelement.style.display = 'none';
   overlay.style.display='none';
 }
@@ -339,6 +343,28 @@ btnclose.className='fa-solid fa-xmark';
 modalelement.appendChild(btnclose);
 btnclose.addEventListener('click',ClearModal);
 }
+
+function ConstrucBtnBeforeModal(){
+  let btnbefore= document.createElement('i');
+  btnbefore.id='btnbefore';
+  btnbefore.className='fa-solid fa-arrow-left';
+  modalelement.appendChild(btnbefore);
+  btnbefore.addEventListener('click',function(){
+    ClearModal();
+    setTimeout(function() {
+      modal(); 
+    }, 0.1);
+  })
+}
+
+function AddImageIcone(){
+  let IconeImage= document.createElement('i');
+  IconeImage.id='IconeImage';
+  IconeImage.className='fa-regular fa-image fa-2xl';
+  cadre.appendChild(IconeImage);
+}
+
+
 
 function mainscript() {
 getWorks().then(() => printgallery());
