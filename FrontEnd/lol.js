@@ -98,7 +98,6 @@ function printgallery() {
     figcaption.textContent = travaux[i].title;
     figure.appendChild(figcaption);
     gallery.appendChild(figure);
-    console.log('galleryprinted')
     i++;
   }
 }
@@ -153,8 +152,10 @@ async function deletework(workId, arraynumber) {
 }
 
 function modal() {
+
   overlay.style.display='block';
-  modalelement.innerHTML = ''
+  modalelement.innerHTML = '';
+  ConstructBtnCloseModal();
   let modalgalery = document.createElement('div');
   modalgalery.id = "modalgalery";
   modalelement.style.display = "block";
@@ -217,10 +218,12 @@ function modal() {
     
           reader.addEventListener('load', function() {
             var cadre = document.getElementById('cadre');
+            cadre.innerHTML='';
             var previewImage = document.createElement('img');
             previewImage.src = reader.result;
             previewImage.style.maxWidth = '90%'; 
             previewImage.style.maxHeight = '90%';
+            previewImage.style.objectFit = 'cover'
             cadre.appendChild(previewImage);
           });
     
@@ -327,6 +330,14 @@ buttontous.addEventListener('click', printgallery);
 function PrintErrorMessage(message,parent) {
 message.id="ErrorMessage"
 parent.appendChild(message);
+}
+
+function ConstructBtnCloseModal(){
+let btnclose= document.createElement('i');
+btnclose.id='btnclose';
+btnclose.className='fa-solid fa-xmark';
+modalelement.appendChild(btnclose);
+btnclose.addEventListener('click',ClearModal);
 }
 
 function mainscript() {
