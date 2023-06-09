@@ -350,6 +350,7 @@ width:75%;
   
   #trash:hover{
 	cursor: pointer;
+	color: #B1663C;
   }
 
   #cadre{
@@ -387,8 +388,28 @@ width:75%;
 	position:absolute;
 	right:10%;
 	top:5%;
+	font-size:200%;
   }
 
   #btnclose:hover{
 	cursor: pointer;
+	color: #B1663C;
+  }
+
+  #btnbefore{
+	position:absolute;
+	left:10%;
+	top:5%;
+	font-size:200%;
+  }
+
+  #btnbefore:hover{
+	cursor: pointer;
+	color: #B1663C;
+  }
+
+  #IconeImage{
+	color:#B9C5CC;
+	font-size: 80px;
+	padding-top: 10px;
   }
