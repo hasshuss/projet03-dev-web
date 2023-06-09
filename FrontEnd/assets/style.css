@@ -95,6 +95,21 @@ h2{
 	white-space: nowrap;
 	display:block;
 }
+
+#btn:hover{
+	cursor: pointer;
+}
+
+#modifier-content:hover{
+	color: #B1663C;
+	cursor: pointer;
+}
+
+#modifier-content{
+	white-space: nowrap;
+	display:flex;
+}
+
 nav ul {
 	display: flex;
 	align-items: center;
@@ -108,6 +123,7 @@ nav li {
 
 li:hover {
 	color: #B1663C;
+	cursor: pointer;
 }
 #introduction {
 	display: flex;
@@ -191,6 +207,10 @@ button{
 	border-radius: 60px ;
 }
 
+button:hover{
+	cursor: pointer;
+}
+
 
 
 #btn{
@@ -246,7 +266,6 @@ footer{
 	border-radius:10px;
 	background-color: white;
 	position: absolute;
-	z-index: 9999;
 	left: 0;
 	right: 0;
 	margin-left: auto;
@@ -351,6 +370,10 @@ width:75%;
 	margin: auto;
   }
 
+  img{
+	object-fit:cover;
+  }
+
   #cadre2
   {
 	width: 70%;
@@ -360,3 +383,12 @@ width:75%;
 	flex-direction: column;
   }
 
+  #btnclose{
+	position:absolute;
+	right:10%;
+	top:5%;
+  }
+
+  #btnclose:hover{
+	cursor: pointer;
+  }
