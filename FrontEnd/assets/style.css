@@ -237,6 +237,8 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
+
+
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
@@ -288,7 +290,9 @@ footer{
 	justify-content: center;
 	justify-items: center;
 	align-items: center;
-	margin-top: 20px;
+	margin: 20px;
+	margin-right: 15%;
+	margin-left: 15%;
 	background-color: transparent;
 }
 
@@ -413,3 +417,41 @@ width:75%;
 	font-size: 80px;
 	padding-top: 10px;
   }
+
+  #ButtonHeader{
+	font-family: 'Syne';
+
+	font-weight: 700;
+	color: black;
+	background-color: white;
+	margin : 2em auto ;
+	width: 250px;
+	text-align: center;
+	border-radius: 60px ;
+  }
+  #bodyheader {
+	display: block;
+	position: absolute;
+	text-align: center;
+	left: 0;
+	top: 0;
+	width: 100%;
+	margin: 0;
+  }
+
+  #bodyheader > * {
+	display: inline-block;
+  }
+#modifier-content2{
+		color:white;
+		margin:15px;
+	  }
+	
+ #modifier-content2 > * {
+		display: inline-block;
+	  }
+
+	  #modifier-content2:hover{
+		cursor: pointer;
+		color: #B1663C;
+	  }
