@@ -9,7 +9,9 @@ const overlay = document.getElementById('superposition')
 const modalelement = document.getElementById('modal');
 const gallery = document.getElementById('gallery');
 let message = document.createElement('span');
-const cadre = document.createElement('div')
+const cadre = document.createElement('div');
+const parent = document.getElementById('parent');
+const body = document.querySelector('body');
 
 async function getWorks() {
   try {
@@ -44,9 +46,9 @@ async function getCategories() {
 }
 
 async function loginadmin() {
-  var username = document.getElementById("username").value;
-  var password = document.getElementById("password").value;
-  var data =
+  let username = document.getElementById("username").value;
+  let password = document.getElementById("password").value;
+  let data =
   {
     email: username,
     password: password
@@ -68,6 +70,12 @@ async function loginadmin() {
           let IconeModifier = document.getElementById('icone-modifier');
           IconeModifier.style.display='flex';
           modifier.addEventListener('click', modal);
+          document.getElementById("username").value = "";
+          document.getElementById("password").value = "";
+          login.textContent = "log out";
+          login.id="logout";
+          CreateHeaderAdmin();
+          logout();
         });
       } else {
         message.textContent='Echec de la connexion';
@@ -82,12 +90,10 @@ function ClearLoginPage() {
   loginPage.style.display = "none";
   modifier.textContent = "modifier";
   buttons.style.display = "none";
-  login.textContent = "log out";
 }
 
 function printgallery() {
   let travaux = JSON.parse(sessionStorage.getItem('works'));
-  console.log(travaux);
   let i = 0;
   gallery.innerHTML = '';
   while (i < travaux.length) {
@@ -112,12 +118,9 @@ function printCategories() {
     buttonCategories.addEventListener('click', (function (k) {
       return function () {
         let travaux = JSON.parse(sessionStorage.getItem('works'));
-        console.log(travaux);
         gallery.innerHTML = '';
         for (let i = 0; i < travaux.length; i++) {
           if (travaux[i].categoryId == Categories[k].id) {
-            console.log(travaux[i].categoryId);
-            console.log(Categories[k].id);
             let figure = document.createElement('figure');
             let image = document.createElement('img');
             image.src = travaux[i].imageUrl;
@@ -129,7 +132,7 @@ function printCategories() {
           }
         }
       }
-    })(k));
+    })(k)); 
   }
 }
 
@@ -143,17 +146,14 @@ async function deletework(workId, arraynumber) {
       'Authorization': `Bearer ${token}`
     }
   });
-  console.log(workId);
   let travaux = JSON.parse(sessionStorage.getItem('works'));
   travaux.splice(arraynumber, 1);
   sessionStorage.setItem('works', JSON.stringify(travaux));
   printgallery();
   modal();
-  console.log(travaux);
 }
 
 function modal() {
-  console.log('ouverture modal')
   overlay.style.display='block';
   modalelement.innerHTML = '';
   ConstructBtnCloseModal();
@@ -214,7 +214,6 @@ function modal() {
         var fileSize = selectedFile.size;
         var maxSize = 4 * 1024 * 1024;
         if (fileSize <= maxSize) {
-          console.log('Fichier sélectionné :', selectedFile.name);
     
           var reader = new FileReader();
     
@@ -254,7 +253,6 @@ function modal() {
     let menu = document.createElement('select');
     cadre2.appendChild(menu);
     let Categories = JSON.parse(sessionStorage.getItem('Categories'));
-    console.log(Categories);
     for (let k = 0; k < Categories.length; k++) {
       let CategorieMenu = document.createElement('option');
       CategorieMenu.textContent = Categories[k].name;
@@ -305,20 +303,10 @@ function modal() {
       }
     });
   });
-  window.addEventListener('click', function (event) {
-    if (
-      event.target === modalelement ||
-      modalelement.style.display === 'none' ||
-      event.target === modifier ||
-      modalelement.contains(event.target)     
-       )
-     {return}
-    ClearModal();
-  });
+  ClearModalWhenClickOutside();
 };
 
 function ClearModal() {
-  console.log('fermeture modal')
   cadre.innerHTML='';
   modalelement.style.display = 'none';
   overlay.style.display='none';
@@ -364,6 +352,49 @@ function AddImageIcone(){
   cadre.appendChild(IconeImage);
 }
 
+function ClearModalWhenClickOutside(){
+  window.addEventListener('click', function (event) {
+    if (
+      event.target === modalelement ||
+      modalelement.style.display === 'none' ||
+      event.target === modifier ||
+      modalelement.contains(event.target)     
+       )
+     {return}
+    ClearModal();
+  });
+}
+
+function logout(){
+let logout_text=document.getElementById('logout');
+logout_text.addEventListener('click', function(){
+logout_text.id='login';
+logout_text.textContent='login';
+sessionStorage.removeItem('token');
+})
+}
+
+function CreateHeaderAdmin(){
+  let bodyheader=document.createElement('div');
+  parent.appendChild(bodyheader);
+  bodyheader.id="bodyheader";
+  bodyheader.style.backgroundColor='black';
+  let ButtonHeader=document.createElement('button');
+  ButtonHeader.id = 'ButtonHeader';
+  ButtonHeader.textContent='publier les changements';
+  let div=document.createElement('div');
+  div.id="modifier-content2"
+  body.style.marginTop='150px';
+  let modifierheader= document.createElement('i');
+  modifierheader.className='fa-regular fa-pen-to-square';
+  let modifiertext=document.createElement('div');
+  modifiertext.textContent='mode édition';
+  div.appendChild(modifierheader);
+  div.appendChild(modifiertext);
+  bodyheader.appendChild(div);
+  bodyheader.appendChild(ButtonHeader);
+}
+
 
 
 function mainscript() {
@@ -378,6 +409,5 @@ let btn = document.getElementById("btn");
 btn.addEventListener('click', loginadmin);
 }
 
-mainscript()
-
+mainscript();
 });
