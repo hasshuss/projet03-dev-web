@@ -100,12 +100,12 @@ h2{
 	cursor: pointer;
 }
 
-#modifier-content:hover{
+.modifier:hover{
 	color: #B1663C;
 	cursor: pointer;
 }
 
-#modifier-content{
+.modifier{
 	white-space: nowrap;
 	display:flex;
 }
@@ -211,10 +211,17 @@ button:hover{
 	cursor: pointer;
 }
 
+#buttons{
+	text-align: center; 
+}
 
+#buttons > * {
+	margin-left : 5px; 
+	margin-right :5px;
+  }
 
 #btn{
-		font-family: 'Syne';
+	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
@@ -442,16 +449,17 @@ width:75%;
   #bodyheader > * {
 	display: inline-block;
   }
-#modifier-content2{
+.modifier-content2{
 		color:white;
 		margin:15px;
+		
 	  }
 	
- #modifier-content2 > * {
+ .modifier-content2 > * {
 		display: inline-block;
 	  }
 
-	  #modifier-content2:hover{
+	  .modifier-content2:hover{
 		cursor: pointer;
 		color: #B1663C;
 	  }
