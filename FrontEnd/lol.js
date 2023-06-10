@@ -75,6 +75,7 @@ async function loginadmin() {
           login.textContent = "log out";
           login.id="logout";
           CreateHeaderAdmin();
+          CreateUselessModifier1();
           logout();
         });
       } else {
@@ -371,6 +372,7 @@ logout_text.addEventListener('click', function(){
 logout_text.id='login';
 logout_text.textContent='login';
 sessionStorage.removeItem('token');
+parent.innerHTML='';
 })
 }
 
@@ -383,7 +385,7 @@ function CreateHeaderAdmin(){
   ButtonHeader.id = 'ButtonHeader';
   ButtonHeader.textContent='publier les changements';
   let div=document.createElement('div');
-  div.id="modifier-content2"
+  div.className="modifier-content2"
   body.style.marginTop='150px';
   let modifierheader= document.createElement('i');
   modifierheader.className='fa-regular fa-pen-to-square';
@@ -394,6 +396,20 @@ function CreateHeaderAdmin(){
   bodyheader.appendChild(div);
   bodyheader.appendChild(ButtonHeader);
 }
+
+function CreateUselessModifier1(){
+  let parent=document.getElementById('ImageSophie');
+  let div=document.createElement('div');
+  div.className="modifier"
+  let modifierheader= document.createElement('i');
+  modifierheader.className='fa-regular fa-pen-to-square';
+  let modifiertext=document.createElement('div');
+  modifiertext.textContent='modifier';
+  div.appendChild(modifierheader);
+  div.appendChild(modifiertext);
+  parent.appendChild(div);
+}
+
 
 
 
